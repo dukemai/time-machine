@@ -1,5 +1,5 @@
 {
   "version": 2,
   "name": "time-machine",
-  "builds": [{ "src": "next.config.js", "use": "@now/next" }]
+  "builds": [{ "use": "@now/next" }]
 }
