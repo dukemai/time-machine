@@ -1,8 +1,12 @@
 {
-    "scripts": {
-      "dev": "next",
-      "build": "next build",
-      "start": "next start",
-      "now-build": "next build"
-    }
+  "name": "time-machine",
+  "version": "0.1.0",
+  "private": false,
+  "dependencies": {},
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "now-build": "next build"
   }
+}
