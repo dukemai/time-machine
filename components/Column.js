@@ -6,11 +6,13 @@ import styles from '../style.css';
 
 const propTypes = {};
 const defaultProps = {};
-const Component = ({ title, value }) => {
+const Component = ({ title, value, renderContent }) => {
   return (
     <section className={classnames('nes-container with-title', styles.column)}>
       <h3 className="title">{title}</h3>
-      <div className="nes-text is-primary">{value}</div>
+      <div className="nes-text is-primary">
+        {typeof renderContent === 'function' ? renderContent() : value}
+      </div>
     </section>
   );
 };

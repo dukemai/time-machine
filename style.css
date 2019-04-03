@@ -1,9 +1,9 @@
 .row {
   display: grid;
-  margin-top: 8px;
+  margin-top: 2.5rem;
 }
 
 .columns2 {
   grid-template-columns: 1fr 1fr;
-  grid-gap: 8px;
+  grid-gap: 32px;
 }
