@@ -3,7 +3,19 @@
   margin-top: 2.5rem;
 }
 
+.row .nes-badge {
+  width: 12.5em;
+  margin-right: 16px;
+}
+
 .columns2 {
   grid-template-columns: 1fr 1fr;
   grid-gap: 32px;
+}
+.columns4 {
+  grid-template-columns: 0.5fr 1fr 1fr 1.5fr;
+  grid-gap: 32px;
+}
+.icon__weather {
+  width: 30px;
 }
