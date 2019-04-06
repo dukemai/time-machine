@@ -13,9 +13,8 @@ export const setTimeoutAnimationFrame = function(fn, delay) {
     var current = new Date().getTime(),
       delta = current - start;
 
-    delta >= delay ? fn.call() : (handle.value = requestAnimFrame(loop));
+    delta >= delay ? fn.call() : (handle.value = requestAnimationFrame(loop));
   }
-  console.log(requestAnimationFrame);
-  handle.value = requestAnimFrame(loop);
+  handle.value = requestAnimationFrame(loop);
   return handle;
 };

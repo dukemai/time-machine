@@ -3,6 +3,13 @@
   margin-top: 2.5rem;
 }
 
+.flexRow {
+  display: flex;
+}
+
+.weatherCard {
+  margin-right: 8px;
+}
 .row .nes-badge {
   width: 12.5em;
   margin-right: 16px;
@@ -16,6 +23,22 @@
   grid-template-columns: 0.5fr 1fr 1fr 1.5fr;
   grid-gap: 32px;
 }
+.columns3 {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 32px;
+}
 .icon__weather {
-  width: 30px;
+  width: 48px;
+  margin: 0 auto;
+}
+.icon__temp {
+  width: 20px;
+  margin-right: 4px;
+}
+.temperature {
+  margin-top: 8px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
