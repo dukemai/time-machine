@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import moment from 'moment';
+import ReactSVG from 'react-svg';
 
 import Column from './Column';
 import Badge from './Badge';
@@ -29,7 +30,9 @@ const getPartOfTheDay = day => {
 
 const START_WORKING = 9;
 const END_WORKING = 17;
+const isWeekend = day => day.weekday() === 6 || day.weekday() === 7;
 const isWorkingHour = day => START_WORKING <= day.hours() && day.hours() <= 17;
+
 const countToWorkingHour = day => {
   if (isWorkingHour(day)) {
     return 0;
@@ -70,10 +73,9 @@ const Time = ({ title, value, children, now }) => {
   return (
     <>
       <section className={classnames(styles.row)}>
-        <Column title="Date time">
+        <Column title={`I dag ${currentLocaleData.weekdays(today)}`}>
           {() => (
             <>
-              <Badge label="Today" value={currentLocaleData.weekdays(today)} />
               <Badge label="Week" value={today.week()} />
               <Badge label="Weeks" value={today.weeksInYear()} />
               <Badge isSplited={false} value={today.format('YYYY-MM-DD')} />
@@ -82,18 +84,38 @@ const Time = ({ title, value, children, now }) => {
         </Column>
       </section>
       <section className={classnames(styles.row)}>
-        <Column title="Now">
+        <Column title={`Nu ${today.format('HH:mm:ss')}`}>
           {() => (
             <ul className="nes-list is-circle">
-              <li>{today.format('HH:mm:ss')}</li>
-              <li>{`Good ${getPartOfTheDay(today)}`}</li>
-              <li>
-                {isWorkingHour(today)
-                  ? 'Fight hard at work'
-                  : 'Time to resting'}
-              </li>
-              <li>{`${countToWorkingHour(today)} hours to start working`}</li>
-              <li>{`${countToEndWorkingDay(today)} hours to go home :)`}</li>
+              <li className={styles.listItem}>{`Good ${getPartOfTheDay(
+                today
+              )}`}</li>
+              {!isWeekend(today) && (
+                <li>
+                  {isWorkingHour(today)
+                    ? 'Fight hard at work'
+                    : 'Time to resting'}
+                </li>
+              )}
+              {isWeekend(today) && (
+                <li className={styles.listItem}>
+                  <ReactSVG
+                    className={styles.icon__temp}
+                    src="./static/icon-heart.svg"
+                  />
+                  Trevlig helg!
+                </li>
+              )}
+              {!isWeekend(today) && !isWorkingHour(today) && (
+                <li className={styles.listItem}>{`${countToWorkingHour(
+                  today
+                )} hours to start working`}</li>
+              )}
+              {!isWeekend(today) && isWorkingHour(today) && (
+                <li className={styles.listItem}>{`${countToEndWorkingDay(
+                  today
+                )} hours to go home :)`}</li>
+              )}
             </ul>
           )}
         </Column>
