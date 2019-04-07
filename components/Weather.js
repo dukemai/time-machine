@@ -51,6 +51,22 @@ const weatherMappings = {
   6: '/static/over-cast.svg',
   16: '/static/snow-shower.svg',
 };
+
+const locations = {
+  jarfalla: {
+    label: 'Järfälla',
+    longAttitude,
+    latAttitude,
+    key: 'jarfalla',
+  },
+  stockholm: {
+    label: 'Stockholm',
+    longAttitude: 18.075256,
+    latAttitude: 59.333189,
+    key: 'stockholm',
+  },
+};
+
 const getWeatherSymbol = timeSeri => {
   const num = getParameter(timeSeri.parameters, 'Wsymb2').values[0];
   return weatherMappings[num] || weatherMappings[2];
@@ -63,48 +79,79 @@ const Weather = () => {
   setTimeoutAnimationFrame(() => setHour(moment().hours()), 1000 * 60 * 15);
 
   const [weatherData, setWeatherData] = useState();
+  const [currentLocation, setCurrentLocation] = useState(locations.jarfalla);
   useEffect(() => {
     const data = fetch(
-      `${basePath}/geotype/point/lon/${longAttitude}/lat/${latAttitude}/data.json`
+      `${basePath}/geotype/point/lon/${currentLocation.longAttitude}/lat/${
+        currentLocation.latAttitude
+      }/data.json`
     )
       .then(res => res.json())
       .then(res => setWeatherData(res));
-  }, [hour]);
+  }, [hour, currentLocation]);
   return weatherData ? (
-    <section className={classnames(styles.row, styles.columns3)}>
-      {findTimeSeries(weatherData).map(timeSeri => (
-        <Column
-          title={formatTimeSeri(timeSeri)}
-          className={styles.weatherCard}
-          key={timeSeri.validTime}
-        >
-          {() => (
-            <>
-              <ReactSVG
-                className={styles.icon__weather}
-                src={getWeatherSymbol(timeSeri)}
-              />
-              <section className={styles.additionalInfo}>
-                <div className={styles.weatherRow}>
-                  <ReactSVG
-                    className={styles.icon__temp}
-                    src="./static/icon-temp-c.svg"
-                  />
-                  <span className={styles.icon__text}>{getTemprature(timeSeri)}</span>
-                </div>
-                <div className={styles.weatherRow}>
-                  <ReactSVG
-                    className={styles.icon__temp}
-                    src="./static/icon-wind.svg"
-                  />
-                  <span className={styles.icon__text}>{getWindSpeed(timeSeri)}m/s</span>
-                </div>
-              </section>
-            </>
-          )}
-        </Column>
-      ))}
-    </section>
+    <Column
+      renderTitle={() => (
+        <section className="title">
+          <label htmlFor="locationSelect">Weather in</label>
+          <div className="nes-select">
+            <select
+              onChange={e => {
+                setCurrentLocation(locations[e.target.value]);
+              }}
+              required
+              id="locationSelect"
+              defaultValue={currentLocation.key}
+            >
+              {Object.keys(locations).map(location => (
+                <option value={location} key={location}>
+                  {locations[location].label}
+                </option>
+              ))}
+            </select>
+          </div>
+        </section>
+      )}
+    >
+      <section className={classnames(styles.row, styles.columns3)}>
+        {findTimeSeries(weatherData).map(timeSeri => (
+          <Column
+            title={formatTimeSeri(timeSeri)}
+            className={styles.weatherCard}
+            key={timeSeri.validTime}
+          >
+            {() => (
+              <>
+                <ReactSVG
+                  className={styles.icon__weather}
+                  src={getWeatherSymbol(timeSeri)}
+                />
+                <section className={styles.additionalInfo}>
+                  <div className={styles.weatherRow}>
+                    <ReactSVG
+                      className={styles.icon__temp}
+                      src="./static/icon-temp-c.svg"
+                    />
+                    <span className={styles.icon__text}>
+                      {getTemprature(timeSeri)}
+                    </span>
+                  </div>
+                  <div className={styles.weatherRow}>
+                    <ReactSVG
+                      className={styles.icon__temp}
+                      src="./static/icon-wind.svg"
+                    />
+                    <span className={styles.icon__text}>
+                      {getWindSpeed(timeSeri)}m/s
+                    </span>
+                  </div>
+                </section>
+              </>
+            )}
+          </Column>
+        ))}
+      </section>
+    </Column>
   ) : null;
 };
 Weather.propTypes = propTypes;

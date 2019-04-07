@@ -87,9 +87,13 @@ const Time = ({ title, value, children, now }) => {
         <Column title={`Nu ${today.format('HH:mm:ss')}`}>
           {() => (
             <ul className="nes-list is-circle">
-              <li className={styles.listItem}>{`Good ${getPartOfTheDay(
-                today
-              )}`}</li>
+              <li className={styles.listItem}>
+                <ReactSVG
+                  className={styles.icon__temp}
+                  src="./static/icon-smile.svg"
+                />
+                {`Good ${getPartOfTheDay(today)}`}
+              </li>
               {!isWeekend(today) && (
                 <li>
                   {isWorkingHour(today)

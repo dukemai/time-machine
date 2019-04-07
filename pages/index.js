@@ -38,7 +38,7 @@ function Index() {
       >
         <Time now={moment()} />
         <section className={classnames(styles.row)}>
-          <Column title="Weather">{() => <Weather />}</Column>
+          <Weather />
         </section>
       </section>
     </>
