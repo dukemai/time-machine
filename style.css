@@ -35,10 +35,19 @@
   width: 20px;
   margin-right: 4px;
 }
-.temperature {
+.icon__text {
+  margin-left: 4px;
+  padding-top: 4px;
+}
+.weatherRow {
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.additionalInfo {
   margin-top: 8px;
   text-align: center;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
 }

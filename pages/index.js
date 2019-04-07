@@ -12,6 +12,8 @@ import classnames from 'classnames';
 import styles from '../style.css';
 
 function Index() {
+  moment.locale('sv');
+
   return (
     <>
       <Head>

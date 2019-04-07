@@ -21,11 +21,14 @@ const getParameter = (arr, name) => {
 };
 const getTimeSeri = weatherData => weatherData.timeSeries[0];
 
-const formatTimeSeri = timeSeri =>
-  moment(timeSeri.validTime).format('HH:mm');
+const formatTimeSeri = timeSeri => moment(timeSeri.validTime).format('HH:mm');
 
 const getTemprature = timeSeri => {
-  return getParameter(timeSeri.parameters, 't').values[0];
+  return Math.round(getParameter(timeSeri.parameters, 't').values[0]);
+};
+
+const getWindSpeed = timeSeri => {
+  return getParameter(timeSeri.parameters, 'ws').values[0];
 };
 
 const findTimeSeries = weatherData =>
@@ -44,13 +47,12 @@ const findTimeSeries = weatherData =>
 const weatherMappings = {
   2: './static/clearsky-sun.svg',
   3: '/static/cloudiness-sun.svg',
-  4: '/static/cloudy-sun.svg',
+  4: '/static/half-clearsky.svg',
   6: '/static/over-cast.svg',
   16: '/static/snow-shower.svg',
 };
 const getWeatherSymbol = timeSeri => {
-  const num = getParameter(timeSeri.parameters, 'Wsymb2')
-    .values[0];
+  const num = getParameter(timeSeri.parameters, 'Wsymb2').values[0];
   return weatherMappings[num] || weatherMappings[2];
 };
 
@@ -82,13 +84,22 @@ const Weather = () => {
                 className={styles.icon__weather}
                 src={getWeatherSymbol(timeSeri)}
               />
-              <div className={styles.temperature}>
-              <ReactSVG
-                className={styles.icon__temp}
-                src="./static/icon-temperature.svg"
-              />
-                {getTemprature(timeSeri)}
-              </div>
+              <section className={styles.additionalInfo}>
+                <div className={styles.weatherRow}>
+                  <ReactSVG
+                    className={styles.icon__temp}
+                    src="./static/icon-temp-c.svg"
+                  />
+                  <span className={styles.icon__text}>{getTemprature(timeSeri)}</span>
+                </div>
+                <div className={styles.weatherRow}>
+                  <ReactSVG
+                    className={styles.icon__temp}
+                    src="./static/icon-wind.svg"
+                  />
+                  <span className={styles.icon__text}>{getWindSpeed(timeSeri)}m/s</span>
+                </div>
+              </section>
             </>
           )}
         </Column>

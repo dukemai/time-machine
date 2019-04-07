@@ -56,7 +56,6 @@ const manipulateTime = setToday =>
   });
 
 const Time = ({ title, value, children, now }) => {
-  moment.locale('sv');
   const currentLocaleData = moment.localeData();
 
   const [today, setToday] = useState(now);
