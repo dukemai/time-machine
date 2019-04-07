@@ -6,6 +6,7 @@ import Week from '../components/Week';
 import Column from '../components/Column';
 import Weather from '../components/Weather';
 import Time from '../components/Time';
+import "../i18n";
 
 import classnames from 'classnames';
 

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import ReactSVG from 'react-svg';
 import moment from 'moment';
+import { useTranslation } from 'react-i18next';
 
 import styles from '../style.css';
 import Badge from './Badge';
@@ -49,6 +50,7 @@ const weatherMappings = {
   3: '/static/cloudiness-sun.svg',
   4: '/static/half-clearsky.svg',
   6: '/static/over-cast.svg',
+  8: '/static/light-rain.svg',
   16: '/static/snow-shower.svg',
 };
 
@@ -89,11 +91,12 @@ const Weather = () => {
       .then(res => res.json())
       .then(res => setWeatherData(res));
   }, [hour, currentLocation]);
+  const { t } = useTranslation();
   return weatherData ? (
     <Column
       renderTitle={() => (
         <section className="title">
-          <label htmlFor="locationSelect">Weather in</label>
+          <label htmlFor="locationSelect">{t('Weather in')}</label>
           <div className="nes-select">
             <select
               onChange={e => {

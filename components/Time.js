@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import moment from 'moment';
 import ReactSVG from 'react-svg';
+import { useTranslation } from 'react-i18next';
 
 import Column from './Column';
 import Badge from './Badge';
@@ -69,22 +70,22 @@ const Time = ({ title, value, children, now }) => {
       return () => cancelAnimationFrame(anim);
     });
   }
-
+  const { t } = useTranslation();
   return (
     <>
       <section className={classnames(styles.row)}>
-        <Column title={`I dag ${currentLocaleData.weekdays(today)}`}>
+        <Column title={`${t('Today')} ${currentLocaleData.weekdays(today)}`}>
           {() => (
             <>
-              <Badge label="Week" value={today.week()} />
-              <Badge label="Weeks" value={today.weeksInYear()} />
+              <Badge label={t('Week')} value={today.week()} />
+              <Badge label={t('Weeks')} value={today.weeksInYear()} />
               <Badge isSplited={false} value={today.format('YYYY-MM-DD')} />
             </>
           )}
         </Column>
       </section>
       <section className={classnames(styles.row)}>
-        <Column title={`Nu ${today.format('HH:mm:ss')}`}>
+        <Column title={`${t('Now')} ${today.format('HH:mm:ss')}`}>
           {() => (
             <ul className="nes-list is-circle">
               <li className={styles.listItem}>
@@ -92,7 +93,7 @@ const Time = ({ title, value, children, now }) => {
                   className={styles.icon__temp}
                   src="./static/icon-smile.svg"
                 />
-                {`Good ${getPartOfTheDay(today)}`}
+                {t(`Good ${getPartOfTheDay(today)}`)}
               </li>
               {!isWeekend(today) && (
                 <li>
@@ -107,7 +108,7 @@ const Time = ({ title, value, children, now }) => {
                     className={styles.icon__temp}
                     src="./static/icon-heart.svg"
                   />
-                  Trevlig helg!
+                  {t('Good weekend')}!
                 </li>
               )}
               {!isWeekend(today) && !isWorkingHour(today) && (
