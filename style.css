@@ -57,4 +57,5 @@
 
 .listItem {
   display: flex;
+  margin-bottom: 4px;
 }

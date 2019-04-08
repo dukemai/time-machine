@@ -110,74 +110,70 @@ const Weather = () => {
   }, [hour, currentLocation]);
   const { t } = useTranslation();
   return weatherData ? (
-    <Column
-      renderTitle={() => (
-        <section className="title">
-          <label htmlFor="locationSelect">{t('Weather in')}</label>
-          <section
-            defaultValue={currentLocation.key}
-            style={{
-              backgroundColor: '#212529',
-              padding: '4px 8px',
-            }}
-          >
-            {Object.keys(locations).map(location => (
-              <label className={styles.locationLabel} key={location}>
-                <input
-                  className="nes-radio is-dark"
-                  name="location"
-                  value={location}
-                  type="radio"
-                  checked={location === currentLocation.key}
-                  onChange={e => {
-                    setCurrentLocation(locations[e.target.value]);
-                  }}
-                />
-                <span>{locations[location].label}</span>
-              </label>
-            ))}
-          </section>
+    <Column title={t('Weather in')}>
+      <>
+        <section
+          defaultValue={currentLocation.key}
+          style={{
+            backgroundColor: '#212529',
+            padding: '4px 8px',
+          }}
+        >
+          {Object.keys(locations).map(location => (
+            <label className={styles.locationLabel} key={location}>
+              <input
+                className="nes-radio is-dark"
+                name="location"
+                value={location}
+                type="radio"
+                checked={location === currentLocation.key}
+                onChange={e => {
+                  setCurrentLocation(locations[e.target.value]);
+                }}
+              />
+              <span>{locations[location].label}</span>
+            </label>
+          ))}
         </section>
-      )}
-    >
-      <section className={classnames(styles.row, styles.columns3)}>
-        {findTimeSeries(weatherData).map(timeSeri => (
-          <Column
-            title={formatTimeSeri(timeSeri)}
-            className={styles.weatherCard}
-            key={timeSeri.validTime}
-          >
-            {() => (
-              <>
-                <ReactSVG
-                  className={styles.icon__weather}
-                  src={getWeatherSymbol(timeSeri)}
-                />
-                <section className={styles.additionalInfo}>
-                  <div className={styles.weatherRow}>
-                    <ReactSVG
-                      className={styles.icon__temp}
-                      src="./static/icon-temp-c.svg"
-                    />
-                    <span className={styles.icon__text}>
-                      {getTemprature(timeSeri)}
-                    </span>
-                  </div>
-                  <div className={styles.weatherRow}>
-                    <ReactSVG
-                      className={styles.icon__temp}
-                      src="./static/icon-wind.svg"
-                    />
-                    <span className={styles.icon__text}>
-                      {getWindSpeed(timeSeri)}m/s
-                    </span>
-                  </div>
-                </section>
-              </>
-            )}
-          </Column>
-        ))}
-      </section>
+        <section className={classnames(styles.row, styles.columns3)}>
+          {findTimeSeries(weatherData).map(timeSeri => (
+            <Column
+              title={formatTimeSeri(timeSeri)}
+              className={styles.weatherCard}
+              key={timeSeri.validTime}
+            >
+              {() => (
+                <>
+                  <ReactSVG
+                    className={styles.icon__weather}
+                    src={getWeatherSymbol(timeSeri)}
+                  />
+                  <section className={styles.additionalInfo}>
+                    <div className={styles.weatherRow}>
+                      <ReactSVG
+                        className={styles.icon__temp}
+                        src="./static/icon-temp-c.svg"
+                      />
+                      <span className={styles.icon__text}>
+                        {getTemprature(timeSeri)}
+                      </span>
+                    </div>
+                    <div className={styles.weatherRow}>
+                      <ReactSVG
+                        className={styles.icon__temp}
+                        src="./static/icon-wind.svg"
+                      />
+                      <span className={styles.icon__text}>
+                        {getWindSpeed(timeSeri)}m/s
+                      </span>
+                    </div>
+                  </section>
+                </>
+              )}
+            </Column>
+          ))}
+        </section>
+      </>
     </Column>
   ) : null;
 };

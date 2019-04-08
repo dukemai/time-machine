@@ -83,12 +83,12 @@ const getContextualMessage = memoizeOne(hour => {
   const part = getPartOfTheDay(hour);
   if (!schedule) {
     if (isWorkingHour(hour)) {
-      return '';
+      return 'Fight hard at work';
     }
     if (part === 'morning') {
       return `${countToWorkingHour(hour)} countdown to work`;
     }
-    return '';
+    return 'Time to rest';
   }
 
   switch (suggestedSchedules[schedule]) {
@@ -148,6 +148,7 @@ const Time = ({ title, value, children, now }) => {
           {() => (
             <ul className="nes-list is-circle">
               <li className={styles.listItem}>
+                
                 <ReactSVG
                   className={styles.icon__temp}
                   src="./static/icon-smile.svg"
@@ -162,11 +163,7 @@ const Time = ({ title, value, children, now }) => {
                       className={styles.icon__temp}
                     />
                   )}
-                  {t(
-                    isWorkingHour(today.hours())
-                      ? 'Fight hard at work'
-                      : 'Time to rest'
-                  )}
+                  {t(getContextualMessage(today.hours()))}
                 </li>
               )}
               {isWeekend(today.weekday()) && (
@@ -178,9 +175,7 @@ const Time = ({ title, value, children, now }) => {
                   {t('Good weekend')}!
                 </li>
               )}
-              {!isWeekend(today.weekday()) && (
-                <li> {t(getContextualMessage(today.hours()))}</li>
-              )}
+              
               {!isWeekend(today.weekday()) && isWorkingHour(today) && (
                 <li className={styles.listItem}>{`${countToEndWorkingDay(
                   today
