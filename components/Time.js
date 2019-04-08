@@ -39,7 +39,7 @@ const suggestedSchedules = {
 
 const START_WORKING = 9;
 const END_WORKING = 17;
-const isWeekend = day => day.weekday() === 6 || day.weekday() === 7;
+const isWeekend = memoizeOne(weekday => weekday === 6 || weekday === 7);
 const isWorkingHour = memoizeOne(hour => START_WORKING <= hour && hour <= 17);
 
 const isInRange = memoizeOne((hour, schedule) => {
@@ -154,7 +154,7 @@ const Time = ({ title, value, children, now }) => {
                 />
                 {t(`Good ${getPartOfTheDay(today)}`)}
               </li>
-              {!isWeekend(today) && (
+              {!isWeekend(today.weekday()) && (
                 <li className={styles.listItem}>
                   {!isWorkingHour(today.hours()) && (
                     <ReactSVG
@@ -169,7 +169,7 @@ const Time = ({ title, value, children, now }) => {
                   )}
                 </li>
               )}
-              {isWeekend(today) && (
+              {isWeekend(today.weekday()) && (
                 <li className={styles.listItem}>
                   <ReactSVG
                     className={styles.icon__temp}
@@ -178,10 +178,10 @@ const Time = ({ title, value, children, now }) => {
                   {t('Good weekend')}!
                 </li>
               )}
-              {!isWeekend(today) && (
+              {!isWeekend(today.weekday()) && (
                 <li> {t(getContextualMessage(today.hours()))}</li>
               )}
-              {!isWeekend(today) && isWorkingHour(today) && (
+              {!isWeekend(today.weekday()) && isWorkingHour(today) && (
                 <li className={styles.listItem}>{`${countToEndWorkingDay(
                   today
                 )} hours to go home :)`}</li>
