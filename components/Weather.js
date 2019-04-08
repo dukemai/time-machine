@@ -54,6 +54,12 @@ const weatherMappings = {
   16: '/static/snow-shower.svg',
 };
 
+const nightWeatherMappings = {
+  1: './static/clear-sky-night.svg',
+  2: './static/clear-sky-night.svg',
+  3: './static/cloudy-night.svg',
+};
+
 const locations = {
   jarfalla: {
     label: 'Järfälla',
@@ -69,9 +75,20 @@ const locations = {
   },
 };
 
+const isNight = dt => {
+  const hour = moment(dt).hours();
+  // dirty and working for summer
+  return hour >= 19 || hour <= 6;
+};
+
 const getWeatherSymbol = timeSeri => {
   const num = getParameter(timeSeri.parameters, 'Wsymb2').values[0];
-  return weatherMappings[num] || weatherMappings[2];
+  const dayWeather = weatherMappings[num] || weatherMappings[2];
+  return isNight(timeSeri.validTime)
+    ? nightWeatherMappings[num]
+      ? nightWeatherMappings[num]
+      : dayWeather
+    : dayWeather;
 };
 
 // refresh by hour
@@ -97,22 +114,29 @@ const Weather = () => {
       renderTitle={() => (
         <section className="title">
           <label htmlFor="locationSelect">{t('Weather in')}</label>
-          <div className="nes-select">
-            <select
-              onChange={e => {
-                setCurrentLocation(locations[e.target.value]);
-              }}
-              required
-              id="locationSelect"
-              defaultValue={currentLocation.key}
-            >
-              {Object.keys(locations).map(location => (
-                <option value={location} key={location}>
-                  {locations[location].label}
-                </option>
-              ))}
-            </select>
-          </div>
+          <section
+            defaultValue={currentLocation.key}
+            style={{
+              backgroundColor: '#212529',
+              padding: '4px 8px',
+            }}
+          >
+            {Object.keys(locations).map(location => (
+              <label className={styles.locationLabel} key={location}>
+                <input
+                  className="nes-radio is-dark"
+                  name="location"
+                  value={location}
+                  type="radio"
+                  checked={location === currentLocation.key}
+                  onChange={e => {
+                    setCurrentLocation(locations[e.target.value]);
+                  }}
+                />
+                <span>{locations[location].label}</span>
+              </label>
+            ))}
+          </section>
         </section>
       )}
     >

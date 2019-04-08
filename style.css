@@ -45,6 +45,9 @@
   margin-top: 4px;
 }
 
+.locationLabel {
+  margin-right: 4px;
+}
 .additionalInfo {
   margin-top: 8px;
   text-align: center;
