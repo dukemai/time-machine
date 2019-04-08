@@ -4,17 +4,18 @@ import classnames from 'classnames';
 import moment from 'moment';
 import ReactSVG from 'react-svg';
 import { useTranslation } from 'react-i18next';
+import memoizeOne from 'memoize-one';
 
 import Column from './Column';
 import Badge from './Badge';
+import { setTimeoutAnimationFrame } from '../utils';
 
 import styles from '../style.css';
 
 const propTypes = {};
 const defaultProps = {};
 
-const getPartOfTheDay = day => {
-  const hour = day.hours();
+const getPartOfTheDay = hour => {
   if (hour < 12) {
     return 'morning';
   }
@@ -29,35 +30,93 @@ const getPartOfTheDay = day => {
   return 'night';
 };
 
+const suggestedSchedules = {
+  '6-8': 'breakfast',
+  '11-13': 'lunch',
+  '18-19': 'dinner',
+  '21-6': 'sleep',
+};
+
 const START_WORKING = 9;
 const END_WORKING = 17;
 const isWeekend = day => day.weekday() === 6 || day.weekday() === 7;
-const isWorkingHour = day => START_WORKING <= day.hours() && day.hours() <= 17;
+const isWorkingHour = memoizeOne(hour => START_WORKING <= hour && hour <= 17);
 
-const countToWorkingHour = day => {
-  if (isWorkingHour(day)) {
-    return 0;
-  }
-  const part = getPartOfTheDay(day);
-  if (part === 'morning') {
-    return START_WORKING - day.hours();
-  }
-  return 24 - day.hours() + START_WORKING;
+const isInRange = memoizeOne((hour, schedule) => {
+  const matches = /(\d+)-(\d+)/.exec(schedule);
+  const t1 = +matches[1];
+  const t2 = +matches[2];
+  const from = moment()
+    .hours(t1)
+    .minutes(0)
+    .seconds(0);
+  const to =
+    t2 > t1
+      ? moment()
+          .hours(t2)
+          .minutes(0)
+          .seconds(0)
+      : moment()
+          .add(1, 'days')
+          .hours(t2)
+          .minutes(0)
+          .seconds(0);
+  return moment().isBetween(from, to);
+});
+const findSchedule = hour => {
+  return Object.keys(suggestedSchedules).find(s => isInRange(hour, s));
 };
 
-const countToEndWorkingDay = day => {
-  if (!isWorkingHour(day)) {
+const countToWorkingHour = hour => {
+  if (isWorkingHour(hour)) {
+    return 0;
+  }
+  const part = getPartOfTheDay(hour);
+  if (part === 'morning') {
+    return moment().hours(START_WORKING) - moment().hours(hour);
+  }
+  return 0;
+};
+
+const getContextualMessage = memoizeOne(hour => {
+  const schedule = findSchedule(hour);
+  const part = getPartOfTheDay(hour);
+  if (!schedule) {
+    if (isWorkingHour(hour)) {
+      return '';
+    }
+    if (part === 'morning') {
+      return `${countToWorkingHour(hour)} countdown to work`;
+    }
+    return '';
+  }
+
+  switch (suggestedSchedules[schedule]) {
+    case 'breakfast':
+      return 'Time for breakfast';
+    case 'lunch':
+      return 'Time for lunch';
+    case 'dinner':
+      return 'Time for dinner';
+    case 'sleep':
+      return 'Time for sleep';
+    default:
+      return '';
+  }
+});
+
+const countToEndWorkingDay = hour => {
+  if (!isWorkingHour(hour)) {
     return 0;
   }
 
-  return END_WORKING - day.hours();
+  return END_WORKING - hour();
 };
 
 const manipulateTime = setToday =>
-  requestAnimationFrame(() => {
+  setTimeoutAnimationFrame(() => {
     setToday(moment());
-    manipulateTime(setToday);
-  });
+  }, 1000);
 
 const Time = ({ title, value, children, now }) => {
   const currentLocaleData = moment.localeData();
@@ -96,10 +155,18 @@ const Time = ({ title, value, children, now }) => {
                 {t(`Good ${getPartOfTheDay(today)}`)}
               </li>
               {!isWeekend(today) && (
-                <li>
-                  {isWorkingHour(today)
-                    ? 'Fight hard at work'
-                    : 'Time to resting'}
+                <li className={styles.listItem}>
+                  {!isWorkingHour(today.hours()) && (
+                    <ReactSVG
+                      src="./static/mug.svg"
+                      className={styles.icon__temp}
+                    />
+                  )}
+                  {t(
+                    isWorkingHour(today.hours())
+                      ? 'Fight hard at work'
+                      : 'Time to rest'
+                  )}
                 </li>
               )}
               {isWeekend(today) && (
@@ -111,10 +178,8 @@ const Time = ({ title, value, children, now }) => {
                   {t('Good weekend')}!
                 </li>
               )}
-              {!isWeekend(today) && !isWorkingHour(today) && (
-                <li className={styles.listItem}>{`${countToWorkingHour(
-                  today
-                )} hours to start working`}</li>
+              {!isWeekend(today) && (
+                <li> {t(getContextualMessage(today.hours()))}</li>
               )}
               {!isWeekend(today) && isWorkingHour(today) && (
                 <li className={styles.listItem}>{`${countToEndWorkingDay(
