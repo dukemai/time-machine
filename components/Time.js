@@ -105,12 +105,24 @@ const getContextualMessage = memoizeOne(hour => {
   }
 });
 
+const convertMilliSecondsIntoLegibleString = milliSecondsIn => {
+  const secsIn = milliSecondsIn / 1000;
+  const milliSecs = milliSecondsIn % 1000;
+
+  const hours = secsIn / 3600,
+    remainder = secsIn % 3600,
+    minutes = remainder / 60,
+    seconds = remainder % 60;
+
+  return `${hours} h: ${minutes} m: ${seconds}s`;
+};
+
 const countToEndWorkingDay = hour => {
   if (!isWorkingHour(hour)) {
     return 0;
   }
 
-  return END_WORKING - hour();
+  return convertMilliSecondsIntoLegibleString(END_WORKING - hour());
 };
 
 const manipulateTime = setToday =>
@@ -148,7 +160,6 @@ const Time = ({ title, value, children, now }) => {
           {() => (
             <ul className="nes-list is-circle">
               <li className={styles.listItem}>
-                
                 <ReactSVG
                   className={styles.icon__temp}
                   src="./static/icon-smile.svg"
@@ -175,7 +186,7 @@ const Time = ({ title, value, children, now }) => {
                   {t('Good weekend')}!
                 </li>
               )}
-              
+
               {!isWeekend(today.weekday()) && isWorkingHour(today) && (
                 <li className={styles.listItem}>{`${countToEndWorkingDay(
                   today
