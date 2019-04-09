@@ -3,10 +3,14 @@
   "version": "0.1.0",
   "private": false,
   "dependencies": {
+    "@babel/core": "*",
+    "@babel/preset-env": "*",
+    "@babel/preset-react": "*",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-sass": "^1.0.1",
     "classnames": "^2.2.6",
     "i18next": "^15.0.9",
+    "jest": "^24.7.1",
     "memoize-one": "^5.0.4",
     "moment": "^2.24.0",
     "nes.css": "^2.1.1",
@@ -16,12 +20,20 @@
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-i18next": "^10.6.1",
-    "react-svg": "^8.0.2"
+    "react-svg": "^8.0.2",
+    "react-test-renderer": "^16.8.6"
   },
   "scripts": {
     "dev": "next",
     "build": "next build",
     "start": "next start",
     "now-build": "next build"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "moduleNameMapper": {
+      "\\.(css|less|sass|scss)$": "<rootDir>/__mocks__/styleMock.js",
+      "\\.(gif|ttf|eot|svg)$": "<rootDir>/__mocks__/fileMock.js"
+    }
   }
 }
