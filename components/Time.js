@@ -153,7 +153,7 @@ const Time = ({ title, value, children, now }) => {
                   className={styles.icon__temp}
                   src="./static/icon-smile.svg"
                 />
-                {t(`Good ${getPartOfTheDay(today)}`)}
+                {t(`Good ${getPartOfTheDay(today.hours())}`)}
               </li>
               {!isWeekend(today.weekday()) && (
                 <li className={styles.listItem}>
