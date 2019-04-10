@@ -5,12 +5,12 @@ export const convertMilliSecondsIntoLegibleString = milliSecondsIn => {
   const secsIn = milliSecondsIn / 1000;
   const milliSecs = milliSecondsIn % 1000;
 
-  const hours = secsIn / 3600,
+  const hours = Math.floor(secsIn / 3600),
     remainder = secsIn % 3600,
-    minutes = remainder / 60,
+    minutes = Math.floor(remainder / 60),
     seconds = remainder % 60;
 
-  return `${hours}h: ${minutes}m: ${seconds}s`;
+  return `${hours}h: ${minutes}m`;
 };
 
 export const getPartOfTheDay = hour => {
@@ -96,7 +96,7 @@ export const getContextualMessage = memoizeOne(hour => {
     if (part === 'morning') {
       return `${convertMilliSecondsIntoLegibleString(
         countToWorkingHour(hour)
-      )} countdown to work`;
+      )} to work`;
     }
     return 'Time to rest';
   }
@@ -120,5 +120,12 @@ export const countToEndWorkingDay = hour => {
     return 0;
   }
 
-  return convertMilliSecondsIntoLegibleString(END_WORKING - hour());
+  return moment().hours(END_WORKING) - moment().hours(hour);
+};
+
+export const getTextCountingToEndWorkingDay = hour => {
+  const remaining = countToEndWorkingDay(hour);
+  return 0 < remaining && remaining < 4 * 60 * 60 * 1000
+    ? convertMilliSecondsIntoLegibleString(remaining)
+    : '';
 };

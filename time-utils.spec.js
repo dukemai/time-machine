@@ -4,7 +4,7 @@ import {
   getPartOfTheDay,
   isWeekend,
   isWorkingHour,
-  countToEndWorkingDay,
+  getTextCountingToEndWorkingDay,
 } from './time-utils';
 
 moment.locale('sv');
@@ -18,6 +18,7 @@ const testData = {
   notWorkingHour: moment('2019-04-08T06:00:00'),
   nightTimeHour: moment('2019-04-08T19:00:00'),
   lunch: moment('2019-04-08T12:00:00'),
+  afterlunch: moment('2019-04-08T14:00:00'),
   dinner: moment('2019-04-08T18:01:00'),
   sleep: moment('2019-04-08T21:00:00'),
   rest: moment('2019-04-08T20:00:00'),
@@ -40,14 +41,20 @@ describe('Time utils', () => {
   test('isWorkingHour should be false', () => {
     expect(isWorkingHour(testData.nightTimeHour.hours())).toBe(false);
   });
+  test('countToEndWorkingDay should be 3h: 0m', () => {
+    expect(getTextCountingToEndWorkingDay(testData.afterlunch.hours())).toBe('3h: 0m');
+  });
+  test('countToEndWorkingDay should be empty', () => {
+    expect(getTextCountingToEndWorkingDay(testData.workingHour.hours())).toBe('');
+  });
 });
 
-describe.only('Contextual messages', () => {
+describe('Contextual messages', () => {
   test('contextual message should be breakfast', () => {
     expect(getContextualMessage(testData.breakfast.hours())).toBe('Time for breakfast');
   });
   test('contextual message should be countdown to work', () => {
-    expect(getContextualMessage(testData.beforeWorking.hours())).toBe('1h: 0m: 0s countdown to work');
+    expect(getContextualMessage(testData.beforeWorking.hours())).toBe('1h: 0m to work');
   });
   test('contextual message should be lunch time', () => {
     expect(getContextualMessage(testData.lunch.hours())).toBe('Time for lunch');

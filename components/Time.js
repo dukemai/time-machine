@@ -84,8 +84,8 @@ const Time = ({ title, value, children, now }) => {
 
               {!isWeekend(today.weekday()) && isWorkingHour(today) && (
                 <li className={styles.listItem}>{`${countToEndWorkingDay(
-                  today
-                )} hours to go home :)`}</li>
+                  today.hours()
+                )} to go home :)`}</li>
               )}
             </ul>
           )}
