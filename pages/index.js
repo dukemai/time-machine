@@ -6,7 +6,7 @@ import Week from '../components/Week';
 import Column from '../components/Column';
 import Weather from '../components/Weather';
 import Time from '../components/Time';
-import "../i18n";
+import '../i18n';
 
 import classnames from 'classnames';
 
@@ -20,6 +20,15 @@ function Index() {
       <Head>
         <title>Time machine</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta
+          name="description"
+          content="Week number, vecka nummer, värder i Stockholm, veckor nummer, sness style vecka"
+        />
+        <meta property="og:title" content="Time app 8 bit style" />
+        <meta
+          property="og:description"
+          content="An application gives information about week number, weather in Stockholm in a fun way"
+        />
         <link
           href="https://fonts.googleapis.com/css?family=Press+Start+2P"
           rel="stylesheet"

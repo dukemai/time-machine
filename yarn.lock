@@ -2186,7 +2186,7 @@ debug@^3.1.0:
   dependencies:
     ms "^2.1.1"
 
-debug@^4.1.0, debug@^4.1.1:
+debug@^4.0.0, debug@^4.1.0, debug@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.1.1.tgz#3b72260255109c6b589cee050f1d516139664791"
   dependencies:
@@ -4314,6 +4314,13 @@ nes.css@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/nes.css/-/nes.css-2.1.1.tgz#04709eb87576a813ad8031d92d2e3fe940ecd0c6"
 
+next-ga@^2.3.4:
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/next-ga/-/next-ga-2.3.4.tgz#0bec23e7c2eea35485af0b342e7794bbbdb61d04"
+  dependencies:
+    debug "^4.0.0"
+    react-ga "^2.5.3"
+
 next-images@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/next-images/-/next-images-1.1.1.tgz#f756de42234908ce4af038a310689be7ab0666dd"
@@ -5150,6 +5157,10 @@ react-dom@^16.7.0:
 react-error-overlay@4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-4.0.0.tgz#d198408a85b4070937a98667f500c832f86bd5d4"
+
+react-ga@^2.5.3:
+  version "2.5.7"
+  resolved "https://registry.yarnpkg.com/react-ga/-/react-ga-2.5.7.tgz#1c80a289004bf84f84c26d46f3a6a6513081bf2e"
 
 react-i18next@^10.6.1:
   version "10.6.1"
