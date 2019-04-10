@@ -6,6 +6,8 @@ import Week from '../components/Week';
 import Column from '../components/Column';
 import Weather from '../components/Weather';
 import Time from '../components/Time';
+import pkgInfo from '../package.json';
+
 import '../i18n';
 
 import classnames from 'classnames';
@@ -50,6 +52,15 @@ function Index() {
         <section className={classnames(styles.row)}>
           <Weather />
         </section>
+        <footer className={styles.footer}>
+          <span>
+            ©2019 {pkgInfo.name} version {pkgInfo.version} by{' '}
+            {pkgInfo.author.name}
+            <a href={pkgInfo.author.url}>
+              <i className={classnames('nes-icon twitter', styles.twitterIcon)} />
+            </a>
+          </span>
+        </footer>
       </section>
     </>
   );

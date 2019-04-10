@@ -59,3 +59,9 @@
   display: flex;
   margin-bottom: 4px;
 }
+.footer {
+  margin: 4rem 0;
+  text-align: center;
+}
+.twitterIcon {
+}

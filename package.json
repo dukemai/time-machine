@@ -1,7 +1,11 @@
 {
-  "name": "time-machine",
-  "version": "0.1.0",
+  "name": "time-app",
+  "version": "0.1.2",
   "private": false,
+  "author": {
+    "name": "Duc Mai",
+    "url": "https://twitter.com/mrducmv88"
+  },
   "dependencies": {
     "@babel/core": "*",
     "@babel/preset-env": "*",
