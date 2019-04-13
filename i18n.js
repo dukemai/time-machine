@@ -32,6 +32,7 @@ i18n.use(initReactI18next).init({
         'Good evening': 'God kväll',
         'Good night': 'God natt',
         'Good weekend': 'Trevlig helg',
+        'Fight hard at work': 'Kämpa hårdt hoss jobbet',
         'Time to rest': 'Dags att vila',
         'Time for sleep': 'Dags att sova',
         'to go home': 'att åka hem',
