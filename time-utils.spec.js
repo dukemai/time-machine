@@ -12,7 +12,7 @@ moment.locale('sv');
 const testData = {
   breakfast: moment('2019-04-09T06:00:00'),
   beforeWorking: moment('2019-04-09T08:00:00'),
-  weekend: moment('2019-04-07T06:00:00'),
+  weekend: moment('2019-04-13T06:00:00'),
   weekday: moment('2019-04-08T06:00:00'),
   workingHour: moment('2019-04-08T09:00:00'),
   notWorkingHour: moment('2019-04-08T06:00:00'),

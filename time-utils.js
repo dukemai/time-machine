@@ -37,7 +37,7 @@ export const suggestedSchedules = {
 
 export const START_WORKING = 9;
 export const END_WORKING = 17;
-export const isWeekend = memoizeOne(weekday => weekday === 6 || weekday === 7);
+export const isWeekend = memoizeOne(weekday => weekday === 5 || weekday === 6);
 export const isWorkingHour = memoizeOne(
   hour => START_WORKING <= hour && hour <= 17
 );
