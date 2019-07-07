@@ -1,0 +1,67 @@
+.row {
+  display: grid;
+  margin-top: 2.5rem;
+}
+
+.flexRow {
+  display: flex;
+}
+
+.weatherCard {
+  margin-right: 8px;
+}
+.row .nes-badge {
+  width: 18.5em;
+  margin-right: 16px;
+}
+
+.columns2 {
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 32px;
+}
+.columns4 {
+  grid-template-columns: 0.5fr 1fr 1fr 1.5fr;
+  grid-gap: 32px;
+}
+.columns3 {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 32px;
+}
+.icon__weather {
+  width: 48px;
+  margin: 0 auto;
+}
+.icon__temp {
+  width: 20px;
+  margin-right: 8px;
+}
+.icon__text {
+  margin-left: 4px;
+  padding-top: 4px;
+}
+.weatherRow {
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.locationLabel {
+  margin-right: 4px;
+}
+.additionalInfo {
+  margin-top: 8px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.listItem {
+  display: flex;
+  margin-bottom: 4px;
+}
+.footer {
+  margin: 4rem 0;
+  text-align: center;
+}
+.twitterIcon {
+}
